@@ -1,0 +1,62 @@
+{
+  "matrizIPlus" : [
+    [0,0,0,0,0,0,0,0,0,0,1,0,0],
+    [0,0,0,0,0,0,1,0,0,0,0,0,0],
+    [0,1,1,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,1,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,1,0,1,0],
+    [0,0,0,0,0,0,0,0,1,0,0,0,0],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0]
+  ],
+  "matrizIMinus" : [
+    [0,0,0,0,0,0,1,1,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [0,0,0,1,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,1,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,1,0,0,0,0,0,0,0],
+    [1,1,1,0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,1,1,1,0]
+  ],
+  "initialMarking" : [
+    0,0,0,0,0,0,0
+  ],
+  "timedTransitions" : [
+    {"transitionId": 0 ,"alpha": 0},
+    {"transitionId": 1 ,"alpha": 0},
+    {"transitionId": 2 ,"alpha": 999999},
+    {"transitionId": 3 ,"alpha": 0},
+    {"transitionId": 4 ,"alpha": 0},
+    {"transitionId": 5 ,"alpha": 0},
+    {"transitionId": 6 ,"alpha": 0},
+    {"transitionId": 7 ,"alpha": 999999},
+    {"transitionId": 8 ,"alpha": 0},
+    {"transitionId": 9 ,"alpha": 999999},
+    {"transitionId": 10 ,"alpha": 0},
+    {"transitionId": 11 ,"alpha": 0},
+    {"transitionId": 12 ,"alpha": 0}
+  ],
+  "mapPlacesNames": {
+    "0": "P_EjecucionPago",
+    "1": "P_NotificarResultado",
+    "2": "P_NotificarFalloAuth",
+    "3": "P_NotificarFalloPago",
+    "4": "P_NotificarFalloSaldo",
+    "5": "P_ValidacionAuth",
+    "6": "P_ValidacionSaldo"
+  },
+  "mapTransitionsNames": {
+    "0": "T_AuthExitosa",
+    "1": "T_AuthFallida",
+    "2": "T_AuthTimeout",
+    "3": "T_FalloAuthEnviado",
+    "4": "T_FalloPagoEnviado",
+    "5": "T_FalloSaldoEnviado",
+    "6": "T_FinalizarProcesoPago",
+    "7": "T_PagoTimeout",
+    "8": "T_RecibirEvento",
+    "9": "T_ValidacionSaldoTimeout",
+    "10": "T_VerificarSaldoExitoso",
+    "11": "T_VerificarSaldoFallo",
+    "12": "T_PagoNotificado"
+  }
+}

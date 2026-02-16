@@ -1,0 +1,91 @@
+{
+  "events": [
+    {
+      "eventId": "PaymentIntent",
+      "transitions": [
+        {
+          "transitionId": 8,
+          "postFiringTimedTransitions": [
+            {
+              "transitionId": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "eventId": "AuthenticationResult",
+      "transitions": [
+        {
+          "transitionId": 0,
+          "expectedConditionResult": {
+              "authenticated": true,
+              "useCase": "C1"
+          },
+          "postFiringTimedTransitions": [
+            {
+              "transitionId": 9
+            }
+          ]
+        },
+        {
+          "transitionId": 1,
+          "expectedConditionResult": { "authenticated": false },
+          "postFiringTransitions": [
+            {
+              "transitionId": 3
+            }
+          ]
+        },
+        {
+          "transitionId": 99,
+          "expectedConditionResult": {
+            "authenticated": true,
+            "useCase": "C2"
+          },
+          "postFiringTransitions": [
+            {
+              "transitionId": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "eventId": "FundsValidationResult",
+      "transitions": [
+        {
+          "transitionId": 10,
+          "expectedConditionResult": { "fundsAvailable": true },
+          "postFiringTimedTransitions": [
+            {
+              "transitionId": 7
+            }
+          ]
+        },
+        {
+          "transitionId": 11,
+          "expectedConditionResult": { "fundsAvailable": false },
+          "postFiringTransitions": [
+            {
+              "transitionId": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "eventId": "PaymentProcessResult",
+      "transitions": [
+        {
+          "transitionId": 6,
+          "postFiringTransitions": [
+            {
+              "transitionId": 12
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
