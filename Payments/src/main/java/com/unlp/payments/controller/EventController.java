@@ -19,7 +19,7 @@ public class EventController {
    private EventProcessorService eventProcessorService;
 
    @PostMapping
-   public void handleEvent(@RequestBody EventRequestDTO eventDTO) throws PetriMonitorException, PaymentsException {
+   public void handleEvent(@RequestBody EventRequestDTO eventDTO) throws PaymentsException, PetriMonitorException {
       eventProcessorService.handleEvent(eventDTO);
    }
 }

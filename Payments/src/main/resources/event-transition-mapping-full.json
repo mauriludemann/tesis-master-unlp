@@ -1,0 +1,158 @@
+{
+  "events": [
+    {
+      "eventId": "PaymentIntent",
+      "transitions": [
+        {
+          "transitionId": 24,
+          "postFiringTimedTransitions": [
+            { "transitionId": 5 }
+          ]
+        }
+      ]
+    },
+    {
+      "eventId": "AuthenticationResult",
+      "transitions": [
+        {
+          "transitionId": 0,
+          "expectedConditionResult": { "authenticated": true, "useCase": "C1" },
+          "postFiringTimedTransitions": [
+            { "transitionId": 30 }
+          ]
+        },
+        {
+          "transitionId": 1,
+          "expectedConditionResult": { "authenticated": true, "useCase": "C2" },
+          "postFiringTimedTransitions": [
+            { "transitionId": 27 }
+          ]
+        },
+        {
+          "transitionId": 2,
+          "expectedConditionResult": { "authenticated": true, "useCase": "C3" },
+          "postFiringTimedTransitions": [
+            { "transitionId": 20 }
+          ]
+        },
+        {
+          "transitionId": 3,
+          "expectedConditionResult": { "authenticated": true, "useCase": "C6" },
+          "postFiringTimedTransitions": [
+            { "transitionId": 29 }
+          ]
+        },
+        {
+          "transitionId": 4,
+          "expectedConditionResult": { "authenticated": false },
+          "postFiringTransitions": [
+            { "transitionId": 8 }
+          ]
+        }
+      ]
+    },
+    {
+      "eventId": "EjecutarPagoProgramado",
+      "transitions": [
+        {
+          "transitionId": 6,
+          "postFiringTimedTransitions": [
+            { "transitionId": 30 }
+          ]
+        }
+      ]
+    },
+    {
+      "eventId": "FundsValidationResult",
+      "transitions": [
+        {
+          "transitionId": 31,
+          "expectedConditionResult": { "fundsAvailable": true },
+          "postFiringTimedTransitions": [
+            { "transitionId": 23 }
+          ]
+        },
+        {
+          "transitionId": 32,
+          "expectedConditionResult": { "fundsAvailable": false },
+          "postFiringTransitions": [
+            { "transitionId": 14 }
+          ]
+        }
+      ]
+    },
+    {
+      "eventId": "PaymentProcessResult",
+      "transitions": [
+        {
+          "transitionId": 15
+        }
+      ]
+    },
+    {
+      "eventId": "RegistroResult",
+      "transitions": [
+        {
+          "transitionId": 25,
+          "expectedConditionResult": { "registroExitoso": true },
+          "postFiringTransitions": [
+            { "transitionId": 22 }
+          ]
+        },
+        {
+          "transitionId": 26,
+          "expectedConditionResult": { "registroExitoso": false },
+          "postFiringTransitions": [
+            { "transitionId": 12 }
+          ]
+        }
+      ]
+    },
+    {
+      "eventId": "ModificarPagoResult",
+      "transitions": [
+        {
+          "transitionId": 18,
+          "expectedConditionResult": { "modificarExitoso": true },
+          "postFiringTransitions": [
+            { "transitionId": 21 }
+          ]
+        },
+        {
+          "transitionId": 19,
+          "expectedConditionResult": { "modificarExitoso": false },
+          "postFiringTransitions": [
+            { "transitionId": 10 }
+          ]
+        }
+      ]
+    },
+    {
+      "eventId": "GeneracionReporteResult",
+      "transitions": [
+        {
+          "transitionId": 17,
+          "expectedConditionResult": { "generacionExitosa": true },
+          "postFiringTimedTransitions": [
+            { "transitionId": 7 }
+          ]
+        },
+        {
+          "transitionId": 28,
+          "expectedConditionResult": { "generacionExitosa": false },
+          "postFiringTransitions": [
+            { "transitionId": 13 }
+          ]
+        }
+      ]
+    },
+    {
+      "eventId": "EnvioReporteResult",
+      "transitions": [
+        {
+          "transitionId": 16
+        }
+      ]
+    }
+  ]
+}

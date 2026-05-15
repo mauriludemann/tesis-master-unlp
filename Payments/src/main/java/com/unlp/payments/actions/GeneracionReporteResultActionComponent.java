@@ -4,35 +4,34 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.unlp.payments.dto.AuthenticationResultMetadata;
 import com.unlp.payments.dto.EventMetadata;
+import com.unlp.payments.dto.GeneracionReporteResultMetadata;
 import com.unlp.payments.utils.SupportedEvents;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class AuthResultActionComponent implements IActionComponent {
+public class GeneracionReporteResultActionComponent implements IActionComponent {
 
    @Override
    public void executeAction(EventMetadata eventMetadata) {
-      log.info("VALIDATING FUNDS");
+      log.info("PROCESANDO RESULTADO DE GENERACION DE REPORTE");
    }
 
    @Override
    public String getEventId() {
-      return SupportedEvents.AUTHENTICATION_RESULT;
+      return SupportedEvents.GENERACION_REPORTE_RESULT;
    }
 
    @Override
    public Class<? extends EventMetadata> getConditionClass() {
-      return AuthenticationResultMetadata.class;
+      return GeneracionReporteResultMetadata.class;
    }
 
    @Override
    public Object buildExpectedCondition(Map<String, Object> rawCondition) {
-      Boolean authenticated = (Boolean) rawCondition.get("authenticated");
-      String useCase = (String) rawCondition.get("useCase");
-      return new AuthenticationResultMetadata.ConditionResult(authenticated, useCase);
+      Boolean generacionExitosa = (Boolean) rawCondition.get("generacionExitosa");
+      return new GeneracionReporteResultMetadata.ConditionResult(generacionExitosa);
    }
 }
