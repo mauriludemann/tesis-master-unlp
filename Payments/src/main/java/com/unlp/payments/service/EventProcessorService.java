@@ -11,6 +11,7 @@ import com.unlp.payments.dto.EventMetadata;
 import com.unlp.payments.dto.EventRequestDTO;
 import com.unlp.payments.exceptions.PaymentsException;
 import com.unlp.payments.utils.TransitionMapping;
+import com.unlp.petri_processor.IPetriNetState;
 import com.unlp.petri_processor.PetriMonitor;
 import com.unlp.petri_processor.PetriTransition;
 import com.unlp.petri_processor.exceptions.PetriMonitorException;
@@ -25,11 +26,18 @@ public class EventProcessorService {
    @Autowired
    private EventTransitionMapper eventTransitionMapper;
 
-   private final ObjectMapper objectMapper = new ObjectMapper();
+   @Autowired
+   private AsyncTransitionService asyncTransitionService;
+
+   @Autowired
+   private ObjectMapper objectMapper;
+
+   @Autowired
+   private IPetriNetState petriNetState;
 
    @PostConstruct
    public void postConstruct() {
-      petriMonitor = new PetriMonitor();
+      petriMonitor = new PetriMonitor(petriNetState);
    }
 
    public void handleEvent(EventRequestDTO eventDTO) throws PetriMonitorException, PaymentsException {
@@ -48,35 +56,17 @@ public class EventProcessorService {
                   objectMapper.convertValue(eventDTO.getMetadata(), transition.getConditionClass()) :
                   null;
             transition.getAction().accept(metadata);
-            executePostActionTransitions(eventDTO.getUuid(), transition);
-            executePostActionTimedTransitions(eventDTO.getUuid(), transition); // Ver que capaz esto no hace falta y pongo todo en el postActionTransitions
+            firePostActionTransitions(eventDTO.getUuid(), transition);
          }
       }
    }
 
-   private void executePostActionTransitions(String uuid, TransitionMapping transition) {
-      for (Integer postActionTransition : transition.getPostActionTransitions()) {
-         new Thread(() -> {
-            try {
-               PetriTransition petriTransition = new PetriTransition(postActionTransition, uuid);
-               petriMonitor.fire(petriTransition);
-            } catch (PetriMonitorException e) {
-               throw new RuntimeException(e);
-            }
-         }).start();
+   private void firePostActionTransitions(String uuid, TransitionMapping transition) {
+      for (Integer transitionId : transition.getPostActionTransitions()) {
+         asyncTransitionService.fireTransition(petriMonitor, transitionId, uuid);
       }
-   }
-
-   private void executePostActionTimedTransitions(String uuid, TransitionMapping transition) {
-      for (Integer postActionTimedTransition : transition.getPostActionTimedTransitions()) {
-         new Thread(() -> {
-            try {
-               PetriTransition petriTransition = new PetriTransition(postActionTimedTransition, uuid);
-               petriMonitor.fire(petriTransition);
-            } catch (PetriMonitorException e) {
-               throw new RuntimeException(e);
-            }
-         }).start();
+      for (Integer transitionId : transition.getPostActionTimedTransitions()) {
+         asyncTransitionService.fireTransition(petriMonitor, transitionId, uuid);
       }
    }
 }
