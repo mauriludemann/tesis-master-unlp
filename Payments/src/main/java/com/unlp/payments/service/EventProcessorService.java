@@ -17,7 +17,9 @@ import com.unlp.petri_processor.PetriTransition;
 import com.unlp.petri_processor.exceptions.PetriMonitorException;
 
 import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class EventProcessorService {
 
@@ -62,9 +64,17 @@ public class EventProcessorService {
    }
 
    private void firePostActionTransitions(String uuid, TransitionMapping transition) {
+      // Transiciones inmediatas (drenaje) se disparan sincrónicamente
       for (Integer transitionId : transition.getPostActionTransitions()) {
-         asyncTransitionService.fireTransition(petriMonitor, transitionId, uuid);
+         try {
+            PetriTransition petriTransition = new PetriTransition(transitionId, uuid);
+            petriMonitor.fire(petriTransition);
+         } catch (PetriMonitorException e) {
+            log.error("Error firing post-action transition {} for uuid {}: {}",
+                  transitionId, uuid, e.getMessage(), e);
+         }
       }
+      // Transiciones temporizadas se disparan asincrónicamente
       for (Integer transitionId : transition.getPostActionTimedTransitions()) {
          asyncTransitionService.fireTransition(petriMonitor, transitionId, uuid);
       }

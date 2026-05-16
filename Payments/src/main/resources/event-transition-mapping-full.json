@@ -85,7 +85,10 @@
       "eventId": "PaymentProcessResult",
       "transitions": [
         {
-          "transitionId": 15
+          "transitionId": 15,
+          "postFiringTransitions": [
+            { "transitionId": 33 }
+          ]
         }
       ]
     },
@@ -150,7 +153,10 @@
       "eventId": "EnvioReporteResult",
       "transitions": [
         {
-          "transitionId": 16
+          "transitionId": 16,
+          "postFiringTransitions": [
+            { "transitionId": 34 }
+          ]
         }
       ]
     }
