@@ -14,10 +14,10 @@
   .header .status.connected { background: #065f46; color: #6ee7b7; }
   .header .status.disconnected { background: #7f1d1d; color: #fca5a5; }
 
-  .main { display: grid; grid-template-columns: 240px 1fr 280px; height: calc(100vh - 49px); }
+  .main { display: grid; grid-template-columns: 240px 1fr 280px; height: calc(100vh - 49px); overflow: hidden; }
 
   /* Left panel */
-  .panel-left { background: #1e293b; border-right: 1px solid #334155; overflow-y: auto; padding: 12px; }
+  .panel-left { background: #1e293b; border-right: 1px solid #334155; overflow-y: auto; padding: 12px; min-height: 0; }
   .panel-left h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 10px; }
   .event-group { margin-bottom: 12px; }
   .event-group-title { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; padding-left: 4px; }
@@ -44,7 +44,7 @@
   .counter-card.total .counter-value { color: #3b82f6; }
 
   /* Center */
-  .panel-center { overflow: hidden; display: flex; flex-direction: column; }
+  .panel-center { overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
   .network-svg-container { flex: 1; min-height: 0; overflow: hidden; }
   .network-svg-container svg { width: 100%; height: 100%; display: block; }
   .transitions-bar { padding: 8px 12px; border-top: 1px solid #334155; background: #1e293b; }
@@ -56,7 +56,7 @@
   .transition-chip.timed { border-style: dashed; }
 
   /* Right panel */
-  .panel-right { background: #1e293b; border-left: 1px solid #334155; display: flex; flex-direction: column; }
+  .panel-right { background: #1e293b; border-left: 1px solid #334155; display: flex; flex-direction: column; min-height: 0; }
   .panel-right h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; padding: 12px 12px 6px; }
   .log-container { flex: 1; overflow-y: auto; padding: 0 12px 12px; }
   .log-entry { padding: 6px 8px; margin-bottom: 3px; border-radius: 5px; border-left: 3px solid; font-size: 11px; background: #0f172a; }
@@ -143,6 +143,64 @@
       <button class="event-btn" onclick="fireEvent('EnvioReporteResult')">Reporte Enviado</button>
     </div>
     <button class="reset-btn" onclick="resetState()">Reiniciar Red</button>
+
+    <div class="mass-exec-section" style="margin-top:12px; padding-top:10px; border-top:1px solid #334155;">
+      <h2 style="font-size:11px; text-transform:uppercase; letter-spacing:0.05em; color:#94a3b8; margin-bottom:6px;">Ejecución masiva</h2>
+      <div style="display:flex; gap:3px; margin-bottom:4px;">
+        <input type="number" id="massExecCount" value="1000" min="1" max="10000" class="uuid-input" style="flex:1; width:60px;" placeholder="Cantidad">
+        <select id="massExecDelay" class="uuid-input" style="flex:1;">
+          <option value="0">0ms</option>
+          <option value="50" selected>50ms</option>
+          <option value="100">100ms</option>
+          <option value="200">200ms</option>
+        </select>
+      </div>
+      <div style="display:flex; gap:3px; margin-bottom:6px; align-items:center;">
+        <span style="font-size:9px; color:#64748b;">Concurrencia:</span>
+        <select id="massExecConcurrency" class="uuid-input" style="flex:1;">
+          <option value="1">1</option>
+          <option value="5">5</option>
+          <option value="10" selected>10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+        </select>
+      </div>
+      <div style="display:flex; gap:3px; margin-bottom:6px; align-items:center;">
+        <span style="font-size:9px; color:#64748b;">Flujo:</span>
+        <select id="massExecFlow" class="uuid-input" style="flex:1;">
+          <option value="random" selected>Aleatorio</option>
+          <option value="CU1-OK">CU1-OK</option>
+          <option value="CU1-FailSaldo">CU1-FailSaldo</option>
+          <option value="CU4-OK">CU4-OK</option>
+          <option value="CU2-OK">CU2-OK</option>
+          <option value="CU2-Fail">CU2-Fail</option>
+          <option value="CU3-OK">CU3-OK</option>
+          <option value="CU3-Fail">CU3-Fail</option>
+          <option value="CU6-OK">CU6-OK</option>
+          <option value="CU6-FailReporte">CU6-FailReporte</option>
+          <option value="AuthFail">AuthFail</option>
+        </select>
+      </div>
+      <button id="massExecBtn" class="event-btn" style="background:#065f46; border-color:#059669; color:#6ee7b7; font-weight:600;" onclick="startMassExecution()">
+        Ejecutar
+      </button>
+      <button id="massExecStopBtn" class="reset-btn" style="display:none; margin-top:4px;" onclick="stopMassExecution()">
+        Detener
+      </button>
+      <button id="massExecDownloadBtn" class="event-btn" style="display:none; margin-top:4px; background:#1e3a5f; border-color:#3b82f6; color:#93c5fd; font-size:11px;" onclick="downloadTracker()">
+        Descargar Tracker
+      </button>
+      <div id="massExecProgress" style="display:none; margin-top:6px;">
+        <div style="display:flex; justify-content:space-between; font-size:10px; color:#94a3b8; margin-bottom:3px;">
+          <span id="massExecStatus">Ejecutando...</span>
+          <span id="massExecCounter">0/0</span>
+        </div>
+        <div style="background:#0f172a; border:1px solid #334155; border-radius:3px; height:6px; overflow:hidden;">
+          <div id="massExecBar" style="height:100%; background:#22c55e; width:0%; transition:width 0.2s;"></div>
+        </div>
+        <div id="massExecTime" style="font-size:9px; color:#475569; margin-top:3px; text-align:right;"></div>
+      </div>
+    </div>
 
     <div class="counters-section">
       <h2>Ejecuciones completadas</h2>
@@ -513,6 +571,248 @@ function addLog(type, msg, detail) {
   entry.innerHTML = `<div class="log-time">${time}</div><div class="log-msg">${msg}</div>${detail ? `<div class="log-detail">${detail}</div>` : ''}`;
   container.prepend(entry);
   while (container.children.length > 100) container.removeChild(container.lastChild);
+}
+
+// === Mass execution ===
+const FLOWS = [
+  { name: 'CU1-OK', weight: 25, steps: [
+    { eventId: 'PaymentIntent' },
+    { eventId: 'AuthenticationResult', metadata: { authenticated: true, useCase: 'C1' } },
+    { eventId: 'FundsValidationResult', metadata: { fundsAvailable: true } },
+    { eventId: 'PaymentProcessResult' }
+  ]},
+  { name: 'CU1-FailSaldo', weight: 10, steps: [
+    { eventId: 'PaymentIntent' },
+    { eventId: 'AuthenticationResult', metadata: { authenticated: true, useCase: 'C1' } },
+    { eventId: 'FundsValidationResult', metadata: { fundsAvailable: false } }
+  ]},
+  { name: 'CU4-OK', weight: 10, steps: [
+    { eventId: 'EjecutarPagoProgramado' },
+    { eventId: 'FundsValidationResult', metadata: { fundsAvailable: true } },
+    { eventId: 'PaymentProcessResult' }
+  ]},
+  { name: 'CU2-OK', weight: 10, steps: [
+    { eventId: 'PaymentIntent' },
+    { eventId: 'AuthenticationResult', metadata: { authenticated: true, useCase: 'C2' } },
+    { eventId: 'RegistroResult', metadata: { registroExitoso: true } }
+  ]},
+  { name: 'CU2-Fail', weight: 5, steps: [
+    { eventId: 'PaymentIntent' },
+    { eventId: 'AuthenticationResult', metadata: { authenticated: true, useCase: 'C2' } },
+    { eventId: 'RegistroResult', metadata: { registroExitoso: false } }
+  ]},
+  { name: 'CU3-OK', weight: 10, steps: [
+    { eventId: 'PaymentIntent' },
+    { eventId: 'AuthenticationResult', metadata: { authenticated: true, useCase: 'C3' } },
+    { eventId: 'ModificarPagoResult', metadata: { modificarExitoso: true } }
+  ]},
+  { name: 'CU3-Fail', weight: 5, steps: [
+    { eventId: 'PaymentIntent' },
+    { eventId: 'AuthenticationResult', metadata: { authenticated: true, useCase: 'C3' } },
+    { eventId: 'ModificarPagoResult', metadata: { modificarExitoso: false } }
+  ]},
+  { name: 'CU6-OK', weight: 10, steps: [
+    { eventId: 'PaymentIntent' },
+    { eventId: 'AuthenticationResult', metadata: { authenticated: true, useCase: 'C6' } },
+    { eventId: 'GeneracionReporteResult', metadata: { generacionExitosa: true } },
+    { eventId: 'EnvioReporteResult' }
+  ]},
+  { name: 'CU6-FailReporte', weight: 5, steps: [
+    { eventId: 'PaymentIntent' },
+    { eventId: 'AuthenticationResult', metadata: { authenticated: true, useCase: 'C6' } },
+    { eventId: 'GeneracionReporteResult', metadata: { generacionExitosa: false } }
+  ]},
+  { name: 'AuthFail', weight: 10, steps: [
+    { eventId: 'PaymentIntent' },
+    { eventId: 'AuthenticationResult', metadata: { authenticated: false } }
+  ]}
+];
+
+let massExecRunning = false;
+let massExecTracker = {};
+
+function pickRandomFlow() {
+  const totalWeight = FLOWS.reduce((s, f) => s + f.weight, 0);
+  let r = Math.random() * totalWeight;
+  for (const flow of FLOWS) {
+    r -= flow.weight;
+    if (r <= 0) return flow;
+  }
+  return FLOWS[0];
+}
+
+function delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+
+async function fireEventSilent(eventId, uuid, metadata) {
+  const body = { eventId, uuid, metadata: metadata || null };
+  const t0 = Date.now();
+  const res = await fetch(API_BASE + '/v1/events', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  const elapsed = Date.now() - t0;
+  // Registrar en tracker
+  if (massExecTracker[uuid]) {
+    massExecTracker[uuid].fired.push({
+      eventId,
+      status: res.status,
+      elapsed,
+      timestamp: new Date().toISOString(),
+      metadata: metadata || null
+    });
+  }
+  if (!res.ok) throw new Error(`HTTP ${res.status} on ${eventId}`);
+  return res;
+}
+
+function getSelectedFlow() {
+  const sel = document.getElementById('massExecFlow').value;
+  if (sel === 'random') return pickRandomFlow();
+  return FLOWS.find(f => f.name === sel) || pickRandomFlow();
+}
+
+async function executeOneFlow(flowIndex) {
+  const flow = getSelectedFlow();
+  const uuid = crypto.randomUUID();
+  const delayMs = parseInt(document.getElementById('massExecDelay').value) || 50;
+  const totalSteps = flow.steps.length;
+
+  // Registrar en tracker al inicio
+  massExecTracker[uuid] = {
+    index: flowIndex,
+    flow: flow.name,
+    plannedSteps: flow.steps.map(s => s.eventId),
+    fired: [],
+    status: 'running',
+    startTime: new Date().toISOString()
+  };
+
+  try {
+    for (let i = 0; i < flow.steps.length; i++) {
+      const step = flow.steps[i];
+      if (!massExecRunning) {
+        massExecTracker[uuid].status = 'stopped';
+        throw new Error('stopped');
+      }
+      await fireEventSilent(step.eventId, uuid, step.metadata);
+      const lastFired = massExecTracker[uuid].fired[massExecTracker[uuid].fired.length - 1];
+      addLog('action', `#${flowIndex + 1} ${flow.name}`, `uuid=${uuid.substring(0, 8)}… step ${i + 1}/${totalSteps} ${step.eventId} → ${lastFired.status} (${lastFired.elapsed}ms)`);
+      await delay(Math.max(delayMs, 1));
+    }
+    massExecTracker[uuid].status = 'completed';
+    massExecTracker[uuid].endTime = new Date().toISOString();
+  } catch (e) {
+    if (e.message === 'stopped') {
+      massExecTracker[uuid].status = 'stopped';
+    } else {
+      massExecTracker[uuid].status = 'error';
+      massExecTracker[uuid].error = e.message;
+    }
+    massExecTracker[uuid].endTime = new Date().toISOString();
+    throw e;
+  }
+  return { flowIndex, flow, uuid };
+}
+
+function downloadTracker() {
+  const data = JSON.stringify(massExecTracker, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `petri-tracker-${new Date().toISOString().replace(/[:.]/g, '-')}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+async function startMassExecution() {
+  const count = parseInt(document.getElementById('massExecCount').value) || 1000;
+  const concurrency = parseInt(document.getElementById('massExecConcurrency').value) || 10;
+
+  massExecRunning = true;
+  massExecTracker = {};
+  document.getElementById('massExecBtn').style.display = 'none';
+  document.getElementById('massExecStopBtn').style.display = 'block';
+  document.getElementById('massExecDownloadBtn').style.display = 'block';
+  document.getElementById('massExecProgress').style.display = 'block';
+
+  const startTime = Date.now();
+  let completed = 0;
+  let errors = 0;
+  let launched = 0;
+
+  function updateProgress() {
+    const done = completed + errors;
+    const progress = (done / count) * 100;
+    document.getElementById('massExecCounter').textContent = `${done}/${count}`;
+    document.getElementById('massExecBar').style.width = `${progress}%`;
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+    document.getElementById('massExecTime').textContent = `${elapsed}s — ${completed} OK, ${errors} errores`;
+  }
+
+  // Worker: pulls from the shared counter and runs flows
+  async function worker() {
+    while (massExecRunning) {
+      const myIndex = launched++;
+      if (myIndex >= count) break;
+      try {
+        const result = await executeOneFlow(myIndex);
+        completed++;
+      } catch (e) {
+        if (e.message === 'stopped') break;
+        errors++;
+        addLog('error', `#${myIndex + 1} error`, e.message);
+      }
+      updateProgress();
+    }
+  }
+
+  // Launch N concurrent workers
+  const workers = [];
+  for (let i = 0; i < Math.min(concurrency, count); i++) {
+    workers.push(worker());
+  }
+  await Promise.all(workers);
+
+  // Refresh state every batch and at the end
+  try {
+    const s = await (await fetch(API_BASE + '/v1/state')).json();
+    updateState(s);
+  } catch (e) {}
+
+  const totalTime = ((Date.now() - startTime) / 1000).toFixed(1);
+  const done = completed + errors;
+  document.getElementById('massExecStatus').textContent = massExecRunning ? 'Completado' : 'Detenido';
+  document.getElementById('massExecCounter').textContent = `${done}/${count}`;
+  document.getElementById('massExecBar').style.width = `${(done / count) * 100}%`;
+  document.getElementById('massExecTime').textContent = `${totalTime}s — ${completed} OK, ${errors} errores`;
+  addLog('state', `Ejecución masiva ${massExecRunning ? 'completada' : 'detenida'}`,
+    `${completed} exitosas, ${errors} errores en ${totalTime}s — concurrencia: ${concurrency}`);
+
+  massExecRunning = false;
+  document.getElementById('massExecBtn').style.display = 'block';
+  document.getElementById('massExecStopBtn').style.display = 'none';
+  document.getElementById('massExecDownloadBtn').style.display = 'block';
+
+  // Marcar UUIDs que quedaron en running como stalled
+  for (const uuid of Object.keys(massExecTracker)) {
+    if (massExecTracker[uuid].status === 'running') {
+      massExecTracker[uuid].status = 'stalled';
+      massExecTracker[uuid].endTime = new Date().toISOString();
+    }
+  }
+
+  // Log resumen del tracker
+  const trackerEntries = Object.values(massExecTracker);
+  const completedFlows = trackerEntries.filter(e => e.status === 'completed').length;
+  const stalledFlows = trackerEntries.filter(e => e.status === 'stalled').length;
+  const errorFlows = trackerEntries.filter(e => e.status === 'error').length;
+  addLog('state', 'Tracker resumen', `${completedFlows} completed, ${stalledFlows} stalled, ${errorFlows} error — ${trackerEntries.length} UUIDs total`);
+}
+
+function stopMassExecution() {
+  massExecRunning = false;
 }
 
 generateUUID();

@@ -16,10 +16,11 @@ public class AsyncTransitionService {
    @Async
    public void fireTransition(PetriMonitor petriMonitor, int transitionId, String uuid) {
       try {
-         PetriTransition petriTransition = new PetriTransition(transitionId, uuid);
-         petriMonitor.fire(petriTransition);
+         log.info("Firing timed transition {} for uuid {}", transitionId, uuid);
+         petriMonitor.fire(new PetriTransition(transitionId, uuid));
+         log.info("Timed transition {} fired for uuid {}", transitionId, uuid);
       } catch (PetriMonitorException e) {
-         log.error("Error firing post-action transition {} for uuid {}: {}", transitionId, uuid, e.getMessage(), e);
+         log.error("Error firing timed transition {} for uuid {}: {}", transitionId, uuid, e.getMessage(), e);
       }
    }
 }

@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unlp.payments.service.StateChangeNotifier;
@@ -29,6 +32,9 @@ public class JpaPetriNetState implements IPetriNetState {
     private final ObjectMapper objectMapper;
     private final StateChangeNotifier stateChangeNotifier;
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
     public JpaPetriNetState(PetriNetStateRepository repository, ObjectMapper objectMapper,
                             StateChangeNotifier stateChangeNotifier) {
         this.repository = repository;
@@ -39,6 +45,7 @@ public class JpaPetriNetState implements IPetriNetState {
     @Override
     public void save(PetriNetSnapshot snapshot) {
         try {
+            entityManager.clear(); // Limpiar cache L1 para forzar lectura fresca de la DB
             PetriNetStateEntity entity = repository.findById(STATE_ID)
                     .orElse(new PetriNetStateEntity(STATE_ID));
 
@@ -76,6 +83,7 @@ public class JpaPetriNetState implements IPetriNetState {
 
     @Override
     public PetriNetSnapshot load() {
+        entityManager.clear(); // Limpiar cache L1 para forzar lectura fresca de la DB
         return repository.findById(STATE_ID).map(entity -> {
             try {
                 int[] currentMarking = objectMapper.readValue(
