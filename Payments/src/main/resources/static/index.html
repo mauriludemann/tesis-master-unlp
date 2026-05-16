@@ -14,71 +14,82 @@
   .header .status.connected { background: #065f46; color: #6ee7b7; }
   .header .status.disconnected { background: #7f1d1d; color: #fca5a5; }
 
-  .main { display: grid; grid-template-columns: 280px 1fr 320px; height: calc(100vh - 49px); }
+  .main { display: grid; grid-template-columns: 240px 1fr 280px; height: calc(100vh - 49px); }
 
-  /* Left panel - Events */
-  .panel-left { background: #1e293b; border-right: 1px solid #334155; overflow-y: auto; padding: 16px; }
-  .panel-left h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 12px; }
-
-  .event-group { margin-bottom: 16px; }
-  .event-group-title { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; padding-left: 4px; }
-
-  .event-btn { display: block; width: 100%; padding: 8px 12px; margin-bottom: 4px; border: 1px solid #334155; border-radius: 6px;
-    background: #0f172a; color: #cbd5e1; font-size: 12px; cursor: pointer; text-align: left; transition: all 0.15s; }
+  /* Left panel */
+  .panel-left { background: #1e293b; border-right: 1px solid #334155; overflow-y: auto; padding: 12px; }
+  .panel-left h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 10px; }
+  .event-group { margin-bottom: 12px; }
+  .event-group-title { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; padding-left: 4px; }
+  .event-btn { display: block; width: 100%; padding: 6px 10px; margin-bottom: 3px; border: 1px solid #334155; border-radius: 5px;
+    background: #0f172a; color: #cbd5e1; font-size: 11px; cursor: pointer; text-align: left; transition: all 0.15s; }
   .event-btn:hover { background: #1e40af; border-color: #3b82f6; color: #fff; }
   .event-btn:active { transform: scale(0.98); }
-  .event-btn.firing { background: #1d4ed8; border-color: #60a5fa; color: #fff; animation: pulse 0.6s; }
-  .event-btn .shortcut { float: right; color: #475569; font-size: 10px; font-family: monospace; }
-
-  .uuid-input { width: 100%; padding: 6px 10px; border: 1px solid #334155; border-radius: 6px; background: #0f172a;
-    color: #f8fafc; font-size: 12px; font-family: monospace; margin-bottom: 12px; }
+  .event-btn.firing { background: #1d4ed8; border-color: #60a5fa; color: #fff; }
+  .uuid-input { width: 100%; padding: 5px 8px; border: 1px solid #334155; border-radius: 5px; background: #0f172a;
+    color: #f8fafc; font-size: 11px; font-family: monospace; }
   .uuid-input:focus { outline: none; border-color: #3b82f6; }
-
-  .reset-btn { display: block; width: 100%; padding: 8px; border: 1px solid #991b1b; border-radius: 6px;
-    background: transparent; color: #fca5a5; font-size: 12px; cursor: pointer; margin-top: 8px; }
+  .reset-btn { display: block; width: 100%; padding: 6px; border: 1px solid #991b1b; border-radius: 5px;
+    background: transparent; color: #fca5a5; font-size: 11px; cursor: pointer; margin-top: 8px; }
   .reset-btn:hover { background: #991b1b; color: #fff; }
 
-  /* Center - Network visualization */
-  .panel-center { overflow: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  /* Counters */
+  .counters-section { margin-top: 14px; padding-top: 10px; border-top: 1px solid #334155; }
+  .counters-section h2 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-bottom: 8px; }
+  .counter-card { background: #0f172a; border: 1px solid #334155; border-radius: 5px; padding: 6px 8px; text-align: center; }
+  .counter-card .counter-label { font-size: 9px; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; }
+  .counter-card .counter-value { font-size: 18px; font-weight: 700; color: #f8fafc; font-family: monospace; }
+  .counter-card.success .counter-value { color: #22c55e; }
+  .counter-card.failure .counter-value { color: #ef4444; }
+  .counter-card.total .counter-value { color: #3b82f6; }
 
-  .places-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .place-card { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 10px 12px;
-    transition: all 0.3s; position: relative; }
-  .place-card.has-token { border-color: #f59e0b; background: #1c1917; box-shadow: 0 0 12px rgba(245, 158, 11, 0.2); }
-  .place-card .place-id { font-size: 10px; color: #64748b; font-family: monospace; }
-  .place-card .place-name { font-size: 13px; font-weight: 500; color: #e2e8f0; margin-top: 2px; }
-  .place-card .token-count { position: absolute; top: 8px; right: 10px; width: 24px; height: 24px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
-  .place-card .token-count.empty { background: #1e293b; color: #475569; border: 1px solid #334155; }
-  .place-card .token-count.active { background: #f59e0b; color: #0f172a; }
-  .place-card .uuids { font-size: 10px; color: #f59e0b; font-family: monospace; margin-top: 4px; }
-
-  .place-card.flash { animation: flashGreen 0.8s ease-out; }
-  @keyframes flashGreen { 0% { box-shadow: 0 0 20px rgba(34,197,94,0.6); } 100% { box-shadow: none; } }
-  @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
-
-  .section-title { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; margin-top: 8px; }
-
-  .transitions-grid { display: flex; flex-wrap: wrap; gap: 4px; }
-  .transition-chip { padding: 3px 8px; border-radius: 4px; font-size: 10px; font-family: monospace;
-    border: 1px solid #334155; background: #0f172a; color: #64748b; transition: all 0.3s; }
+  /* Center */
+  .panel-center { overflow: hidden; display: flex; flex-direction: column; }
+  .network-svg-container { flex: 1; min-height: 0; overflow: hidden; }
+  .network-svg-container svg { width: 100%; height: 100%; display: block; }
+  .transitions-bar { padding: 8px 12px; border-top: 1px solid #334155; background: #1e293b; }
+  .transitions-bar-title { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 4px; }
+  .transitions-grid { display: flex; flex-wrap: wrap; gap: 3px; }
+  .transition-chip { padding: 2px 6px; border-radius: 3px; font-size: 9px; font-family: monospace;
+    border: 1px solid #334155; background: #0f172a; color: #475569; transition: all 0.3s; }
   .transition-chip.enabled { border-color: #22c55e; color: #22c55e; background: #052e16; }
   .transition-chip.timed { border-style: dashed; }
 
-  /* Right panel - Log */
+  /* Right panel */
   .panel-right { background: #1e293b; border-left: 1px solid #334155; display: flex; flex-direction: column; }
-  .panel-right h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8;
-    padding: 16px 16px 8px; }
-  .log-container { flex: 1; overflow-y: auto; padding: 0 16px 16px; }
-
-  .log-entry { padding: 8px 10px; margin-bottom: 4px; border-radius: 6px; border-left: 3px solid; font-size: 12px; background: #0f172a; }
+  .panel-right h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: #94a3b8; padding: 12px 12px 6px; }
+  .log-container { flex: 1; overflow-y: auto; padding: 0 12px 12px; }
+  .log-entry { padding: 6px 8px; margin-bottom: 3px; border-radius: 5px; border-left: 3px solid; font-size: 11px; background: #0f172a; }
   .log-entry.event { border-color: #3b82f6; }
   .log-entry.state { border-color: #f59e0b; }
   .log-entry.action { border-color: #22c55e; }
   .log-entry.error { border-color: #ef4444; }
-  .log-entry .log-time { color: #475569; font-size: 10px; font-family: monospace; }
-  .log-entry .log-msg { color: #cbd5e1; margin-top: 2px; }
-  .log-entry .log-detail { color: #64748b; font-size: 11px; margin-top: 2px; font-family: monospace; }
+  .log-entry .log-time { color: #475569; font-size: 9px; font-family: monospace; }
+  .log-entry .log-msg { color: #cbd5e1; margin-top: 1px; }
+  .log-entry .log-detail { color: #64748b; font-size: 10px; margin-top: 1px; font-family: monospace; }
+
+  /* SVG styles */
+  .place-circle { transition: all 0.4s ease; }
+  .place-circle.empty { fill: #1e293b; stroke: #475569; stroke-width: 2; }
+  .place-circle.active { fill: #78350f; stroke: #f59e0b; stroke-width: 2.5; }
+  .place-label { font-family: 'Segoe UI', system-ui, sans-serif; font-size: 9px; fill: #94a3b8; text-anchor: middle; }
+  .place-id-label { font-family: monospace; font-size: 8px; fill: #475569; text-anchor: middle; }
+  .token-text { font-family: 'Segoe UI', sans-serif; font-size: 12px; font-weight: 700; text-anchor: middle; dominant-baseline: central; }
+  .token-text.empty { fill: #475569; }
+  .token-text.active { fill: #fbbf24; }
+  .uuid-text { font-family: monospace; font-size: 7px; fill: #f59e0b; text-anchor: middle; }
+  .connection { stroke: #334155; stroke-width: 1.2; fill: none; marker-end: url(#arrowhead); }
+  .connection.success { stroke: #334155; }
+  .connection.failure { stroke: #7f1d1d; stroke-dasharray: 4 3; }
+  .cu-label { font-family: 'Segoe UI', sans-serif; font-size: 11px; font-weight: 600; fill: #475569; }
+  .cu-label-bg { fill: #1e293b; rx: 3; }
+
+  @keyframes glowPulse {
+    0% { filter: drop-shadow(0 0 4px rgba(245,158,11,0.6)); }
+    50% { filter: drop-shadow(0 0 10px rgba(245,158,11,0.9)); }
+    100% { filter: drop-shadow(0 0 4px rgba(245,158,11,0.6)); }
+  }
+  .place-group.active { animation: glowPulse 1.5s ease-in-out infinite; }
 </style>
 </head>
 <body>
@@ -91,13 +102,12 @@
 </div>
 
 <div class="main">
-  <!-- Left: Event buttons -->
   <div class="panel-left">
     <h2>Eventos</h2>
-    <label style="font-size:11px; color:#64748b;">UUID de instancia:</label>
-    <div style="display:flex; gap:4px; margin-bottom:12px;">
-      <input type="text" id="uuidInput" class="uuid-input" style="margin-bottom:0; flex:1;" value="" placeholder="Click Generar">
-      <button class="event-btn" style="width:auto; margin:0; padding:6px 10px; white-space:nowrap; font-size:11px;" onclick="generateUUID()">Generar</button>
+    <label style="font-size:10px; color:#64748b;">UUID:</label>
+    <div style="display:flex; gap:3px; margin-bottom:10px;">
+      <input type="text" id="uuidInput" class="uuid-input" style="flex:1;" value="" placeholder="Click Generar">
+      <button class="event-btn" style="width:auto; margin:0; padding:5px 8px; white-space:nowrap; font-size:10px;" onclick="generateUUID()">Generar</button>
     </div>
 
     <div class="event-group">
@@ -109,26 +119,22 @@
       <button class="event-btn" onclick="fireEvent('FundsValidationResult', {fundsAvailable:false})">Saldo Insuficiente</button>
       <button class="event-btn" onclick="fireEvent('PaymentProcessResult')">Pago Procesado</button>
     </div>
-
     <div class="event-group">
       <div class="event-group-title">CU2 — Registro</div>
       <button class="event-btn" onclick="fireEvent('AuthenticationResult', {authenticated:true, useCase:'C2'})">Auth Exitosa (C2)</button>
       <button class="event-btn" onclick="fireEvent('RegistroResult', {registroExitoso:true})">Registro OK</button>
       <button class="event-btn" onclick="fireEvent('RegistroResult', {registroExitoso:false})">Registro Fallo</button>
     </div>
-
     <div class="event-group">
       <div class="event-group-title">CU3 — Modificar Pago</div>
       <button class="event-btn" onclick="fireEvent('AuthenticationResult', {authenticated:true, useCase:'C3'})">Auth Exitosa (C3)</button>
       <button class="event-btn" onclick="fireEvent('ModificarPagoResult', {modificarExitoso:true})">Modificar OK</button>
       <button class="event-btn" onclick="fireEvent('ModificarPagoResult', {modificarExitoso:false})">Modificar Fallo</button>
     </div>
-
     <div class="event-group">
       <div class="event-group-title">CU4 — Pago Programado</div>
       <button class="event-btn" onclick="fireEvent('EjecutarPagoProgramado')">Ejecutar Pago Programado</button>
     </div>
-
     <div class="event-group">
       <div class="event-group-title">CU6 — Reporte</div>
       <button class="event-btn" onclick="fireEvent('AuthenticationResult', {authenticated:true, useCase:'C6'})">Auth Exitosa (C6)</button>
@@ -136,20 +142,33 @@
       <button class="event-btn" onclick="fireEvent('GeneracionReporteResult', {generacionExitosa:false})">Reporte Fallo</button>
       <button class="event-btn" onclick="fireEvent('EnvioReporteResult')">Reporte Enviado</button>
     </div>
-
     <button class="reset-btn" onclick="resetState()">Reiniciar Red</button>
+
+    <div class="counters-section">
+      <h2>Ejecuciones completadas</h2>
+      <div id="countersContainer"></div>
+    </div>
   </div>
 
-  <!-- Center: Network state -->
   <div class="panel-center">
-    <div class="section-title">Places (Marcado actual)</div>
-    <div id="placesGrid" class="places-grid"></div>
-
-    <div class="section-title">Transiciones</div>
-    <div id="transitionsGrid" class="transitions-grid"></div>
+    <div class="network-svg-container">
+      <svg id="networkSvg" viewBox="0 0 1050 740" preserveAspectRatio="xMidYMin meet" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#475569"/>
+          </marker>
+          <marker id="arrowhead-red" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#7f1d1d"/>
+          </marker>
+        </defs>
+      </svg>
+    </div>
+    <div class="transitions-bar">
+      <div class="transitions-bar-title">Transiciones</div>
+      <div id="transitionsGrid" class="transitions-grid"></div>
+    </div>
   </div>
 
-  <!-- Right: Log -->
   <div class="panel-right">
     <h2>Log de eventos</h2>
     <div id="logContainer" class="log-container"></div>
@@ -162,6 +181,97 @@ let placesNames = {};
 let transitionsNames = {};
 let previousMarking = [];
 const timedTransitionIds = new Set([5, 7, 20, 23, 27, 29, 30]);
+const R = 20;
+
+// Execution counters
+const counters = {
+  pago_ok: 0, pago_fail_saldo: 0, pago_fail_pago: 0,
+  cu2_ok: 0, cu2_fail: 0,
+  cu3_ok: 0, cu3_fail: 0,
+  cu6_ok: 0, cu6_fail_reporte: 0, cu6_fail_envio: 0,
+  auth_fail: 0
+};
+
+// Map: place index → counter key (drain transitions consume from these places)
+const drainPlaceCounterMap = {
+  5: 'pago_ok',          // P_NotificarExito (CU1/CU4)
+  8: 'pago_fail_pago',   // P_NotificarFalloPago (CU1/CU4)
+  11: 'pago_fail_saldo', // P_NotificarFalloSaldo (CU1/CU4)
+  6: 'auth_fail',        // P_NotificarFalloAuth
+  12: 'cu2_ok',          // P_NotificarRegistroExitoso
+  9: 'cu2_fail',         // P_NotificarFalloRegistro
+  17: 'cu3_ok',          // P_NotificarModificarPagoExitoso
+  7: 'cu3_fail',         // P_NotificarFalloModificarPago
+  14: 'cu6_ok',          // P_ReporteExito
+  2: 'cu6_fail_envio',   // P_EnvioReporteFallo
+  10: 'cu6_fail_reporte' // P_NotificarFalloReporte
+};
+
+// Place positions matching the PIPE network layout
+const placePositions = {
+  15: { x: 130, y: 350, label: 'ValidacionAuth' },
+  6:  { x: 100, y: 210, label: 'NotificarFalloAuth' },
+  16: { x: 360, y: 95,  label: 'ValidacionSaldo' },
+  0:  { x: 610, y: 55,  label: 'EjecucionPago' },
+  5:  { x: 820, y: 55,  label: 'NotificarExito' },
+  11: { x: 530, y: 170, label: 'NotificarFalloSaldo' },
+  8:  { x: 780, y: 150, label: 'NotificarFalloPago' },
+  13: { x: 360, y: 310, label: 'RegistroPago' },
+  12: { x: 620, y: 280, label: 'NotifRegistroExitoso' },
+  9:  { x: 620, y: 365, label: 'NotifFalloRegistro' },
+  4:  { x: 360, y: 460, label: 'ModificarPago' },
+  17: { x: 620, y: 430, label: 'NotifModifPagoOK' },
+  7:  { x: 620, y: 515, label: 'NotifFalloModifPago' },
+  3:  { x: 360, y: 610, label: 'GeneracionReporte' },
+  1:  { x: 610, y: 580, label: 'EnvioReporte' },
+  14: { x: 820, y: 580, label: 'ReporteExito' },
+  10: { x: 530, y: 690, label: 'NotifFalloReporte' },
+  2:  { x: 780, y: 670, label: 'EnvioReporteFallo' },
+};
+
+const connections = [
+  { fx: 20, fy: 350, tx: 130, ty: 350, type: 'success', label: 'RecibirEvento' },
+  { fx: 20, fy: 60, tx: 360, ty: 95, type: 'success', label: 'PagoProgramado' },
+  { from: 15, to: 6, type: 'failure', label: 'AuthFallida / Timeout' },
+  { from: 15, to: 16, type: 'success', label: 'AuthExitosa C1' },
+  { from: 16, to: 0,  type: 'success', label: 'SaldoExitoso' },
+  { from: 0,  to: 5,  type: 'success', label: 'FinalizarPago' },
+  { from: 16, to: 11, type: 'failure', label: 'SaldoFallo / Timeout' },
+  { from: 0,  to: 8,  type: 'failure', label: 'PagoTimeout' },
+  { from: 15, to: 13, type: 'success', label: 'AuthExitosa C2' },
+  { from: 13, to: 12, type: 'success', label: 'RegistroExitoso' },
+  { from: 13, to: 9,  type: 'failure', label: 'RegistroFallo / Timeout' },
+  { from: 15, to: 4,  type: 'success', label: 'AuthExitosa C3' },
+  { from: 4,  to: 17, type: 'success', label: 'ModificarExitoso' },
+  { from: 4,  to: 7,  type: 'failure', label: 'ModificarFallo / Timeout' },
+  { from: 15, to: 3,  type: 'success', label: 'AuthExitosa C6' },
+  { from: 3,  to: 1,  type: 'success', label: 'ReporteGenerado' },
+  { from: 1,  to: 14, type: 'success', label: 'FinalizarReporte' },
+  { from: 3,  to: 10, type: 'failure', label: 'ReporteFallo / Timeout' },
+  { from: 1,  to: 2,  type: 'failure', label: 'EnvioTimeout' },
+];
+
+const drainArrows = [
+  { from: 5,  ex: 960, ey: 55,  label: 'PagoExitoEnv' },
+  { from: 8,  ex: 920, ey: 150, label: 'FalloPagoEnv' },
+  { from: 11, ex: 670, ey: 170, label: 'FalloSaldoEnv' },
+  { from: 6,  ex: 100, ey: 130, label: 'FalloAuthEnv' },
+  { from: 12, ex: 780, ey: 280, label: 'RegistroEnv' },
+  { from: 9,  ex: 780, ey: 365, label: 'FalloRegistroEnv' },
+  { from: 17, ex: 780, ey: 430, label: 'ModifPagoEnv' },
+  { from: 7,  ex: 780, ey: 515, label: 'FalloModifEnv' },
+  { from: 14, ex: 960, ey: 580, label: 'ReporteExitoEnv' },
+  { from: 2,  ex: 920, ey: 670, label: 'FalloEnvioRep' },
+  { from: 10, ex: 670, ey: 690, label: 'FalloRepEnv' },
+];
+
+const cuLabels = [
+  { x: 980, y: 55,  text: 'CU1' },
+  { x: 980, y: 95,  text: 'CU4' },
+  { x: 800, y: 320, text: 'CU2' },
+  { x: 800, y: 470, text: 'CU3' },
+  { x: 980, y: 620, text: 'CU6' },
+];
 
 function generateUUID() {
   const uuid = crypto.randomUUID();
@@ -169,7 +279,164 @@ function generateUUID() {
   return uuid;
 }
 
-// Load config and initial state
+function buildNetworkSvg() {
+  const svg = document.getElementById('networkSvg');
+  let html = svg.querySelector('defs').outerHTML;
+
+  cuLabels.forEach(cl => {
+    html += `<rect x="${cl.x - 18}" y="${cl.y - 11}" width="36" height="18" class="cu-label-bg"/>`;
+    html += `<text x="${cl.x}" y="${cl.y + 1}" class="cu-label" text-anchor="middle" dominant-baseline="central">${cl.text}</text>`;
+  });
+
+  html += `<text x="15" y="338" class="place-label" text-anchor="start" style="font-size:8px; fill:#64748b;">Entrada</text>`;
+  html += `<text x="15" y="48" class="place-label" text-anchor="start" style="font-size:8px; fill:#64748b;">CU4</text>`;
+
+  connections.forEach(conn => {
+    let x1, y1, x2, y2;
+    if (conn.from !== undefined) {
+      const pFrom = placePositions[conn.from];
+      const pTo = placePositions[conn.to];
+      const dx = pTo.x - pFrom.x;
+      const dy = pTo.y - pFrom.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      x1 = pFrom.x + (dx / dist) * (R + 2);
+      y1 = pFrom.y + (dy / dist) * (R + 2);
+      x2 = pTo.x - (dx / dist) * (R + 3);
+      y2 = pTo.y - (dy / dist) * (R + 3);
+    } else {
+      x1 = conn.fx; y1 = conn.fy;
+      x2 = conn.tx - R - 3; y2 = conn.ty;
+    }
+    const markerEnd = conn.type === 'failure' ? 'url(#arrowhead-red)' : 'url(#arrowhead)';
+    const strokeClass = conn.type === 'failure' ? 'connection failure' : 'connection success';
+    html += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="${strokeClass}" marker-end="${markerEnd}"/>`;
+    if (conn.label) {
+      const mx = (x1 + x2) / 2;
+      const my = (y1 + y2) / 2 - 5;
+      html += `<text x="${mx}" y="${my}" style="font-size:7px; fill:#475569; text-anchor:middle; font-family:sans-serif;">${conn.label}</text>`;
+    }
+  });
+
+  drainArrows.forEach(da => {
+    const pFrom = placePositions[da.from];
+    const dx = da.ex - pFrom.x;
+    const dy = da.ey - pFrom.y;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    const x1 = pFrom.x + (dx / dist) * (R + 2);
+    const y1 = pFrom.y + (dy / dist) * (R + 2);
+    html += `<line x1="${x1}" y1="${y1}" x2="${da.ex}" y2="${da.ey}" class="connection success" marker-end="url(#arrowhead)" stroke-opacity="0.4"/>`;
+    const mx = (x1 + da.ex) / 2;
+    const my = (y1 + da.ey) / 2 - 4;
+    html += `<text x="${mx}" y="${my}" style="font-size:6px; fill:#334155; text-anchor:middle; font-family:sans-serif;">${da.label}</text>`;
+  });
+
+  Object.entries(placePositions).forEach(([id, pos]) => {
+    const i = parseInt(id);
+    html += `<g id="place-group-${i}" class="place-group">`;
+    html += `  <circle cx="${pos.x}" cy="${pos.y}" r="${R}" class="place-circle empty" id="place-circle-${i}"/>`;
+    html += `  <text x="${pos.x}" y="${pos.y}" class="token-text empty" id="token-text-${i}">0</text>`;
+    html += `  <text x="${pos.x}" y="${pos.y - R - 6}" class="place-id-label">P${i}</text>`;
+    html += `  <text x="${pos.x}" y="${pos.y + R + 12}" class="place-label">${pos.label}</text>`;
+    html += `  <text x="${pos.x}" y="${pos.y + R + 22}" class="uuid-text" id="uuid-text-${i}"></text>`;
+    html += `</g>`;
+  });
+
+  svg.innerHTML = html;
+}
+
+function renderPlaces(marking, uuidMarking) {
+  Object.keys(placePositions).forEach(idx => {
+    const i = parseInt(idx);
+    const tokens = marking[i] || 0;
+    const hasToken = tokens > 0;
+    const circle = document.getElementById(`place-circle-${i}`);
+    const tokenText = document.getElementById(`token-text-${i}`);
+    const uuidText = document.getElementById(`uuid-text-${i}`);
+    const group = document.getElementById(`place-group-${i}`);
+    if (!circle) return;
+    circle.className.baseVal = `place-circle ${hasToken ? 'active' : 'empty'}`;
+    tokenText.className.baseVal = `token-text ${hasToken ? 'active' : 'empty'}`;
+    tokenText.textContent = tokens;
+    group.className.baseVal = `place-group ${hasToken ? 'active' : ''}`;
+    const uuids = uuidMarking && uuidMarking[idx] ? uuidMarking[idx] : [];
+    const uuidStr = Array.isArray(uuids) ? uuids.join(', ') : [...(uuids || [])].join(', ');
+    if (uuidText) {
+      uuidText.textContent = uuidStr ? uuidStr.substring(0, 12) + '...' : '';
+    }
+  });
+}
+
+function renderTransitions(enabled) {
+  const grid = document.getElementById('transitionsGrid');
+  const keys = Object.keys(transitionsNames).sort((a, b) => parseInt(a) - parseInt(b));
+  grid.innerHTML = keys.map(idx => {
+    const i = parseInt(idx);
+    const isEnabled = enabled[i] || false;
+    const isTimed = timedTransitionIds.has(i);
+    return `<span class="transition-chip ${isEnabled ? 'enabled' : ''} ${isTimed ? 'timed' : ''}" title="${transitionsNames[idx]}">
+      T${i} ${transitionsNames[idx].replace('T_', '')}
+    </span>`;
+  }).join('');
+}
+
+function detectDrainedPlaces(oldMarking, newMarking) {
+  if (!oldMarking || oldMarking.length === 0) return;
+  Object.entries(drainPlaceCounterMap).forEach(([placeId, counterKey]) => {
+    const pi = parseInt(placeId);
+    const oldTokens = oldMarking[pi] || 0;
+    const newTokens = newMarking[pi] || 0;
+    if (oldTokens > newTokens) {
+      counters[counterKey] += (oldTokens - newTokens);
+    }
+  });
+  renderCounters();
+}
+
+function renderCounters() {
+  const container = document.getElementById('countersContainer');
+  const cuData = [
+    { label: 'Pago', ok: counters.pago_ok, fail: counters.pago_fail_saldo + counters.pago_fail_pago },
+    { label: 'CU2', ok: counters.cu2_ok, fail: counters.cu2_fail },
+    { label: 'CU3', ok: counters.cu3_ok, fail: counters.cu3_fail },
+    { label: 'CU6', ok: counters.cu6_ok, fail: counters.cu6_fail_reporte + counters.cu6_fail_envio },
+  ];
+  const totalOk = cuData.reduce((s, c) => s + c.ok, 0);
+  const totalFail = cuData.reduce((s, c) => s + c.fail, 0) + counters.auth_fail;
+
+  container.innerHTML = `
+    <div style="display:flex; gap:4px; margin-bottom:8px;">
+      <div class="counter-card total" style="flex:1;"><div class="counter-label">Total</div><div class="counter-value">${totalOk + totalFail}</div></div>
+      <div class="counter-card success" style="flex:1;"><div class="counter-label">OK</div><div class="counter-value">${totalOk}</div></div>
+      <div class="counter-card failure" style="flex:1;"><div class="counter-label">Fallo</div><div class="counter-value">${totalFail}</div></div>
+    </div>
+    ${cuData.map(cu => `
+      <div style="display:flex; gap:3px; margin-bottom:3px; align-items:center;">
+        <span style="font-size:9px; color:#64748b; width:28px; text-align:right; font-weight:600;">${cu.label}</span>
+        <div class="counter-card success" style="flex:1; padding:3px 4px;">
+          <div class="counter-value" style="font-size:13px;">${cu.ok}</div>
+        </div>
+        <div class="counter-card failure" style="flex:1; padding:3px 4px;">
+          <div class="counter-value" style="font-size:13px;">${cu.fail}</div>
+        </div>
+      </div>
+    `).join('')}
+    <div style="display:flex; gap:3px; margin-top:3px; align-items:center;">
+      <span style="font-size:9px; color:#64748b; width:28px; text-align:right; font-weight:600;">Auth</span>
+      <div class="counter-card failure" style="flex:1; padding:3px 4px;">
+        <div class="counter-value" style="font-size:13px;">${counters.auth_fail}</div>
+      </div>
+    </div>
+  `;
+}
+
+function updateState(state) {
+  const newMarking = state.marking || [];
+  detectDrainedPlaces(previousMarking, newMarking);
+  renderPlaces(newMarking, state.uuidMarking || {});
+  renderTransitions(state.enabledTransitions || []);
+  previousMarking = [...newMarking];
+}
+
 async function init() {
   try {
     const configRes = await fetch(API_BASE + '/v1/state/config');
@@ -177,8 +444,9 @@ async function init() {
     placesNames = config.mapPlacesNames || {};
     transitionsNames = config.mapTransitionsNames || {};
 
-    renderPlaces([]);
+    buildNetworkSvg();
     renderTransitions([]);
+    renderCounters();
 
     const stateRes = await fetch(API_BASE + '/v1/state');
     const state = await stateRes.json();
@@ -197,108 +465,44 @@ async function init() {
 function connectSSE() {
   const evtSource = new EventSource(API_BASE + '/v1/state/stream');
   const statusEl = document.getElementById('sseStatus');
-
-  evtSource.onopen = () => {
-    statusEl.textContent = 'Conectado';
-    statusEl.className = 'status connected';
-  };
-
-  evtSource.addEventListener('state-change', (e) => {
-    const data = JSON.parse(e.data);
-    updateState(data);
-  });
-
+  evtSource.onopen = () => { statusEl.textContent = 'Conectado'; statusEl.className = 'status connected'; };
+  evtSource.addEventListener('state-change', (e) => { updateState(JSON.parse(e.data)); });
   evtSource.onerror = () => {
-    statusEl.textContent = 'Desconectado';
-    statusEl.className = 'status disconnected';
-    setTimeout(() => connectSSE(), 3000);
+    statusEl.textContent = 'Desconectado'; statusEl.className = 'status disconnected';
+    evtSource.close();
+    setTimeout(connectSSE, 3000);
   };
-}
-
-function updateState(state) {
-  renderPlaces(state.marking || [], state.uuidMarking || {});
-  renderTransitions(state.enabledTransitions || []);
-  previousMarking = [...(state.marking || [])];
-}
-
-function renderPlaces(marking, uuidMarking) {
-  const grid = document.getElementById('placesGrid');
-  const keys = Object.keys(placesNames).sort((a, b) => parseInt(a) - parseInt(b));
-  grid.innerHTML = keys.map(idx => {
-    const i = parseInt(idx);
-    const tokens = marking[i] || 0;
-    const hasToken = tokens > 0;
-    const changed = previousMarking.length > 0 && previousMarking[i] !== tokens;
-    const uuids = uuidMarking && uuidMarking[idx] ? uuidMarking[idx] : [];
-    const uuidStr = Array.isArray(uuids) ? uuids.join(', ') : [...(uuids || [])].join(', ');
-
-    return `<div class="place-card ${hasToken ? 'has-token' : ''} ${changed ? 'flash' : ''}" id="place-${i}">
-      <span class="place-id">P${i}</span>
-      <div class="place-name">${placesNames[idx].replace('P_', '')}</div>
-      <span class="token-count ${hasToken ? 'active' : 'empty'}">${tokens}</span>
-      ${uuidStr ? `<div class="uuids">${uuidStr}</div>` : ''}
-    </div>`;
-  }).join('');
-}
-
-function renderTransitions(enabled) {
-  const grid = document.getElementById('transitionsGrid');
-  const keys = Object.keys(transitionsNames).sort((a, b) => parseInt(a) - parseInt(b));
-  grid.innerHTML = keys.map(idx => {
-    const i = parseInt(idx);
-    const isEnabled = enabled[i] || false;
-    const isTimed = timedTransitionIds.has(i);
-    return `<span class="transition-chip ${isEnabled ? 'enabled' : ''} ${isTimed ? 'timed' : ''}" title="${transitionsNames[idx]}">
-      T${i} ${transitionsNames[idx].replace('T_', '')}
-    </span>`;
-  }).join('');
 }
 
 async function fireEvent(eventId, metadata) {
-  const uuid = document.getElementById('uuidInput').value || 'pago-001';
-
+  const uuid = document.getElementById('uuidInput').value || generateUUID();
   const btn = event.target;
   btn.classList.add('firing');
   setTimeout(() => btn.classList.remove('firing'), 600);
-
   addLog('event', `Evento: ${eventId}`, `uuid=${uuid}` + (metadata ? ` | ${JSON.stringify(metadata)}` : ''));
-
   try {
     const body = { eventId, uuid, metadata: metadata || null };
-    const res = await fetch(API_BASE + '/v1/events', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-
+    const res = await fetch(API_BASE + '/v1/events', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
     if (res.ok) {
       addLog('action', `${eventId} procesado`, `HTTP ${res.status}`);
-      // Refresh state as fallback if SSE is slow
-      setTimeout(async () => {
-        const stateRes = await fetch(API_BASE + '/v1/state');
-        const state = await stateRes.json();
-        updateState(state);
-      }, 200);
+      setTimeout(async () => { const s = await (await fetch(API_BASE + '/v1/state')).json(); updateState(s); }, 200);
     } else {
-      const errText = await res.text();
-      addLog('error', `Error procesando ${eventId}`, `HTTP ${res.status}: ${errText}`);
+      addLog('error', `Error procesando ${eventId}`, `HTTP ${res.status}: ${await res.text()}`);
     }
-  } catch (e) {
-    addLog('error', `Error de red`, e.message);
-  }
+  } catch (e) { addLog('error', 'Error de red', e.message); }
 }
 
 async function resetState() {
   if (!confirm('Reiniciar el estado de la red de Petri?')) return;
   try {
     await fetch(API_BASE + '/v1/state/reset', { method: 'POST' });
-    addLog('state', 'Red reiniciada', 'El estado fue reseteado. Reinicia la app para cargar el marking inicial.');
+    addLog('state', 'Red reiniciada', 'Reinicia la app para cargar el marking inicial.');
     previousMarking = [];
-    renderPlaces([]);
+    renderPlaces([], {});
     renderTransitions([]);
-  } catch (e) {
-    addLog('error', 'Error al reiniciar', e.message);
-  }
+    Object.keys(counters).forEach(k => counters[k] = 0);
+    renderCounters();
+  } catch (e) { addLog('error', 'Error al reiniciar', e.message); }
 }
 
 function addLog(type, msg, detail) {
@@ -308,7 +512,6 @@ function addLog(type, msg, detail) {
   entry.className = `log-entry ${type}`;
   entry.innerHTML = `<div class="log-time">${time}</div><div class="log-msg">${msg}</div>${detail ? `<div class="log-detail">${detail}</div>` : ''}`;
   container.prepend(entry);
-  // Keep max 100 entries
   while (container.children.length > 100) container.removeChild(container.lastChild);
 }
 
