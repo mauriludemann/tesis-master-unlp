@@ -1,0 +1,65 @@
+@startuml
+skinparam componentStyle rectangle
+package "Controller" {
+    class EventController {
+        +handleEvent(EventRequestDTO)
+    }
+}
+package "Service" {
+    class EventProcessorService {
+        -petriMonitor: PetriMonitor
+        +handleEvent(EventRequestDTO)
+        -firePostActionTransitions(String, TransitionMapping)
+    }
+    class EventTransitionMapper {
+        -eventMappings: Map
+        +findTransitions(EventRequestDTO): List<TransitionMapping>
+    }
+    class AsyncTransitionService {
+        +fireTransition(PetriMonitor, int, String)
+    }
+}
+package "Actions" {
+    interface IActionComponent {
+        +executeAction(EventMetadata)
+        +getEventId(): String
+        +getConditionClass(): Class
+    }
+    class AuthResultActionComponent
+    class PaymentIntentActionComponent
+    class FundsValidationResultActionComponent
+    together {
+        class AuthResultActionComponent
+        class PaymentIntentActionComponent
+        class FundsValidationResultActionComponent
+    }
+}
+note bottom of Actions : 9 implementaciones en total\n(una por cada tipo de evento)
+package "Persistence" {
+    class JpaPetriNetState {
+        +save(PetriNetSnapshot)
+        +load(): PetriNetSnapshot
+    }
+    interface PetriNetStateRepository <<interface>>
+    class PetriNetStateEntity <<entity>>
+}
+package "External: petri-processor" #DDDDDD {
+    interface IPetriNetState
+    class PetriMonitor {
+        +fire(PetriTransition)
+    }
+}
+' Relationships
+EventController --> EventProcessorService
+EventProcessorService --> EventTransitionMapper
+EventProcessorService --> AsyncTransitionService
+EventProcessorService --> PetriMonitor
+EventProcessorService --> IPetriNetState
+EventTransitionMapper --> IActionComponent : uses to map transitions
+IActionComponent <|.. AuthResultActionComponent
+IActionComponent <|.. PaymentIntentActionComponent
+IActionComponent <|.. FundsValidationResultActionComponent
+JpaPetriNetState ..|> IPetriNetState
+JpaPetriNetState --> PetriNetStateRepository
+PetriNetStateRepository --> PetriNetStateEntity
+@enduml
